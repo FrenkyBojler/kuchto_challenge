@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1ajyv60hyxky"
-path="res://.godot/imported/MiniKingMan.png-e7312ff92dfeab9d33ccac50bd58acb8.ctex"
+uid="uid://oo5r5lubxdep"
+path="res://.godot/imported/icon.png-43a6e44349f3cba4404c1b2f96ce1c90.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/MinifolksHumans/Outline/MiniKingMan.png"
-dest_files=["res://.godot/imported/MiniKingMan.png-e7312ff92dfeab9d33ccac50bd58acb8.ctex"]
+source_file="res://addons/project-time-tracker/icon.png"
+dest_files=["res://.godot/imported/icon.png-43a6e44349f3cba4404c1b2f96ce1c90.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
