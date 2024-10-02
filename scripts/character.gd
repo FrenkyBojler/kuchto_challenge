@@ -1,20 +1,17 @@
-extends CharacterBody2D
+extends AttackingCharacterBody2D
 
 const SPEED = 100.0
 
-@onready var animation_player = $AnimationPlayer
 
-var is_attacking := false
-
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var horizontal_direction := Input.get_axis("ui_left", "ui_right")
 	var vertical_direcrtion := Input.get_axis("ui_up", "ui_down")
 	
 	if horizontal_direction < 0:
-		$Sprite2D.flip_h = true
+		_flip_character(true)
 	elif horizontal_direction > 0:
-		$Sprite2D.flip_h = false
-	
+		_flip_character(false)
+		
 	if horizontal_direction:
 		velocity.x = horizontal_direction * SPEED
 	else:
@@ -27,12 +24,10 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	_handle_animations()
-	_attack()
 
 func _attack() -> void:
-	if Input.is_action_just_pressed("attack"):
-		is_attacking = true
-		animation_player.play("attack", -1, 2)
+	is_attacking = true
+	animation_player.play("attack", -1, 2)
 
 func _handle_animations() -> void:
 	if is_attacking:
@@ -43,5 +38,11 @@ func _handle_animations() -> void:
 	else:
 		animation_player.play("idle")
 
-func _on_attack_animation_finish() -> void:
-	is_attacking = false
+func _flip_character(left: bool) -> void:
+	if left:
+		$Sprite2D.flip_h = true
+	else:
+		$Sprite2D.flip_h = false
+
+func _on_default_weapon_on_attack() -> void:
+	_attack()

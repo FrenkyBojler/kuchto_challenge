@@ -1,28 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://o26urwl4pg1y"]
+[gd_scene load_steps=10 format=3 uid="uid://o26urwl4pg1y"]
 
 [ext_resource type="Texture2D" uid="uid://b1ajyv60hyxky" path="res://assets/textures/MinifolksHumans/Outline/MiniKingMan.png" id="1_5fn3s"]
-[ext_resource type="Script" path="res://prefabs/character.gd" id="1_xxybj"]
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_xxybj"]
+[ext_resource type="PackedScene" uid="uid://ya4mn7i1weia" path="res://prefabs/weapons/sword_weapon.tscn" id="4_6gayc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8gqd7"]
 size = Vector2(9, 2)
-
-[sub_resource type="Animation" id="Animation_rhufb"]
-resource_name = "walk"
-length = 0.50001
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:region_rect")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Rect2(0, 64, 32, 32), Rect2(32, 64, 32, 32), Rect2(64, 64, 32, 32), Rect2(96, 64, 32, 32), Rect2(128, 64, 32, 32), Rect2(160, 64, 32, 32)]
-}
 
 [sub_resource type="Animation" id="Animation_afbqr"]
 length = 0.001
@@ -37,24 +20,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Rect2(0, 0, 32, 32)]
-}
-
-[sub_resource type="Animation" id="Animation_amegh"]
-resource_name = "idle"
-length = 0.60001
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:region_rect")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Rect2(0, 0, 32, 32), Rect2(32, 0, 32, 32), Rect2(64, 0, 32, 32), Rect2(96, 0, 32, 32)]
 }
 
 [sub_resource type="Animation" id="Animation_gjhjk"]
@@ -86,6 +51,42 @@ tracks/1/keys = {
 "args": [],
 "method": &"_on_attack_animation_finish"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_amegh"]
+resource_name = "idle"
+length = 0.60001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 32, 32), Rect2(32, 0, 32, 32), Rect2(64, 0, 32, 32), Rect2(96, 0, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_rhufb"]
+resource_name = "walk"
+length = 0.50001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 64, 32, 32), Rect2(32, 64, 32, 32), Rect2(64, 64, 32, 32), Rect2(96, 64, 32, 32), Rect2(128, 64, 32, 32), Rect2(160, 64, 32, 32)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fcviv"]
@@ -120,3 +121,13 @@ position_smoothing_enabled = true
 libraries = {
 "": SubResource("AnimationLibrary_fcviv")
 }
+
+[node name="Sword" parent="." instance=ExtResource("4_6gayc")]
+
+[node name="Marker2D" parent="Sword" index="0"]
+position = Vector2(9.5, -3.5)
+
+[connection signal="actual_attack_trigger" from="." to="Sword" method="_on_character_actual_attack_trigger"]
+[connection signal="on_attack" from="Sword" to="." method="_on_default_weapon_on_attack"]
+
+[editable path="Sword"]

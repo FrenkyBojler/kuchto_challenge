@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ya4mn7i1weia"]
+
+[ext_resource type="Script" path="res://scripts/weapon.gd" id="1_0o8mt"]
+[ext_resource type="PackedScene" uid="uid://w4e74menioje" path="res://prefabs/sword_projectile.tscn" id="2_elnr4"]
+
+[node name="SwordWeapon" type="Node2D" node_paths=PackedStringArray("projectile_spawn_position")]
+script = ExtResource("1_0o8mt")
+projectile_spawn_position = NodePath("Marker2D")
+projectile_prefab = ExtResource("2_elnr4")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+gizmo_extents = 77.2
