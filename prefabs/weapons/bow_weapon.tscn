@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfqmjehtk06d4"]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon.gd" id="1_gjeey"]
+[ext_resource type="PackedScene" uid="uid://yecr5nuhl4h4" path="res://prefabs/weapons/arrow_projectile.tscn" id="2_6yix1"]
+
+[node name="Weapon" type="Node2D"]
+script = ExtResource("1_gjeey")
+attack_range = 300
+projectile_prefab = ExtResource("2_6yix1")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpixtt1k7da1x"]
+[gd_scene load_steps=11 format=3 uid="uid://bpixtt1k7da1x"]
 
 [ext_resource type="Script" path="res://scripts/attacking_entity.gd" id="1_s0eoj"]
 [ext_resource type="Texture2D" uid="uid://b1ajyv60hyxky" path="res://assets/textures/MinifolksHumans/Outline/MiniKingMan.png" id="2_jnaqw"]
@@ -6,24 +6,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_myj68"]
 size = Vector2(9, 2)
-
-[sub_resource type="Animation" id="Animation_2lf8f"]
-resource_name = "idle"
-length = 0.60001
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("king/Sprite2D:region_rect")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Rect2(0, 0, 32, 32), Rect2(32, 0, 32, 32), Rect2(64, 0, 32, 32), Rect2(96, 0, 32, 32)]
-}
 
 [sub_resource type="Animation" id="Animation_r8w12"]
 length = 0.001
@@ -38,24 +20,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Rect2(0, 0, 32, 32)]
-}
-
-[sub_resource type="Animation" id="Animation_oc1d7"]
-resource_name = "walk"
-length = 1.00001
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("king/Sprite2D:region_rect")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Rect2(0, 64, 32, 32), Rect2(32, 64, 32, 32), Rect2(64, 64, 32, 32), Rect2(96, 64, 32, 32), Rect2(128, 64, 32, 32), Rect2(160, 64, 32, 32)]
 }
 
 [sub_resource type="Animation" id="Animation_irkx5"]
@@ -89,6 +53,42 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_2lf8f"]
+resource_name = "idle"
+length = 0.60001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("king/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 32, 32), Rect2(32, 0, 32, 32), Rect2(64, 0, 32, 32), Rect2(96, 0, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_oc1d7"]
+resource_name = "walk"
+length = 1.00001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("king/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 64, 32, 32), Rect2(32, 64, 32, 32), Rect2(64, 64, 32, 32), Rect2(96, 64, 32, 32), Rect2(128, 64, 32, 32), Rect2(160, 64, 32, 32)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fcviv"]
 _data = {
 "RESET": SubResource("Animation_r8w12"),
@@ -97,7 +97,12 @@ _data = {
 "walk": SubResource("Animation_oc1d7")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u70oc"]
+radius = 6.0
+height = 13.0
+
 [node name="king" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "top_left_spawn_position", "top_right_spawn_position", "top_spawn_position", "bottom_left_spawn_position", "bottom_right_spawn_position", "bottom_spawn_position", "left_spawn_position", "right_spawn_position")]
+scale = Vector2(2, 2)
 script = ExtResource("1_s0eoj")
 weapon = NodePath("SwordWeapon")
 top_left_spawn_position = NodePath("AttackPoints/TopLeft")
@@ -115,7 +120,7 @@ texture_repeat = 1
 position = Vector2(0.5, -14)
 texture = ExtResource("2_jnaqw")
 region_enabled = true
-region_rect = Rect2(0, 0, 32, 32)
+region_rect = Rect2(0, 64, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_myj68")
@@ -153,5 +158,12 @@ position = Vector2(0, -14)
 
 [node name="Bottom" type="Marker2D" parent="AttackPoints"]
 position = Vector2(0, 3)
+
+[node name="HitDetection" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection"]
+position = Vector2(0, 7.5)
+shape = SubResource("CapsuleShape2D_u70oc")
 
 [connection signal="actual_attack_trigger" from="." to="SwordWeapon" method="_on_king_actual_attack_trigger"]

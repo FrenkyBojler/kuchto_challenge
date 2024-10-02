@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbrg0yhe7ne33"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_dlec7"]
+[ext_resource type="PackedScene" uid="uid://bpixtt1k7da1x" path="res://prefabs/characters/king.tscn" id="2_26u1k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xnfw1"]
+radius = 300.0
+
+[node name="Enemy" type="Node2D" node_paths=PackedStringArray("character")]
+script = ExtResource("1_dlec7")
+character = NodePath("king")
+
+[node name="king" parent="." instance=ExtResource("2_26u1k")]
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_xnfw1")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]

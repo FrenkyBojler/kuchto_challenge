@@ -1,6 +1,8 @@
 extends Node2D
 class_name Weapon
 
+@export var attack_range := 5
+
 @export var damage: float = 10
 @export var number_of_projectiles: int = 1
 @export var attack_rate: float = 1
@@ -9,11 +11,14 @@ class_name Weapon
 
 @export var attach_projectiles_to_parent := false
 
+
 var projectile_spawn_position: Vector2
 
 var attack_timer: Timer
 var attack_timer_tick := 0.1
 var current_time_to_attack := 0.0
+
+var _target: AttackingCharacterBody2D
 
 signal on_attack
 
@@ -26,8 +31,9 @@ func _attack() -> void:
 		return
 	else:
 		current_time_to_attack = 0.0
-
-	on_attack.emit()
+	
+	if _target != null and abs(global_position.distance_to(_target.global_position)) <= attack_range:
+		on_attack.emit()
 
 func _set_attack_timer() -> void:
 	attack_timer = Timer.new()
@@ -36,6 +42,9 @@ func _set_attack_timer() -> void:
 	attack_timer.timeout.connect(_attack)
 	attack_timer.one_shot = false
 	attack_timer.start()
+	
+func set_target(target: AttackingCharacterBody2D) -> void:
+	_target = target
 
 func set_projectile_spawn_pos(pos: Vector2) -> void:
 	projectile_spawn_position = pos
@@ -53,4 +62,4 @@ func actual_attack_trigger() -> void:
 		else:
 			get_tree().root.add_child(projectile)
 		projectile.global_position = projectile_spawn_position
-		#projectile.shoot()
+		projectile.shoot(_target, damage)

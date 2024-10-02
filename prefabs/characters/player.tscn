@@ -1,16 +1,21 @@
 [gd_scene load_steps=3 format=3 uid="uid://c10hnd4grbjit"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_wvk4m"]
-[ext_resource type="PackedScene" uid="uid://bpixtt1k7da1x" path="res://prefabs/characters/king.tscn" id="2_1vbm0"]
+[ext_resource type="PackedScene" uid="uid://h7v446k11mw2" path="res://prefabs/characters/archer.tscn" id="2_rwq8i"]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("character")]
-scale = Vector2(2, 2)
 script = ExtResource("1_wvk4m")
-character = NodePath("king")
+character = NodePath("archer")
 
-[node name="king" parent="." instance=ExtResource("2_1vbm0")]
+[node name="king" parent="." instance_placeholder="res://prefabs/characters/king.tscn"]
+visible = false
+is_player = true
 
-[node name="Camera2D" type="Camera2D" parent="king"]
+[node name="archer" parent="." instance=ExtResource("2_rwq8i")]
+position = Vector2(0, -26)
+is_player = true
+
+[node name="Camera2D" type="Camera2D" parent="archer"]
 zoom = Vector2(2, 2)
 limit_smoothed = true
 position_smoothing_enabled = true

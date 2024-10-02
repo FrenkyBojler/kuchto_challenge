@@ -1,7 +1,10 @@
 extends CharacterBody2D
 class_name AttackingCharacterBody2D
 
-signal actual_attack_trigger
+signal actual_attack_trigger(target: AttackingCharacterBody2D)
+signal got_hit(damage: float)
+
+@export var is_player := false
 
 @export var weapon: Weapon
 
@@ -17,23 +20,25 @@ signal actual_attack_trigger
 @onready var animation_player = $AnimationPlayer
 var is_attacking := false
 
+var _target: AttackingCharacterBody2D
+
 func _ready() -> void:
 	if weapon != null:
 		actual_attack_trigger.connect(weapon.actual_attack_trigger)
 		weapon.on_attack.connect(_attack)
-		
+
 func _physics_process(delta: float) -> void:
 	_child_physics_process(delta)
 	_swap_projectile_spawn_pos()
 	_move()
-	
+
 func _child_physics_process(_delta: float) -> void:
 	pass
 	
 func _move() -> void:
 	move_and_slide()
 	_handle_animations()
-	
+
 	if velocity.x < 0:
 		_flip_character(true)
 	elif velocity.x > 0:
@@ -71,7 +76,6 @@ func _swap_projectile_spawn_pos() -> void:
 		# RIGHT
 		weapon.set_projectile_spawn_pos(right_spawn_position.global_position)
 
-
 func _attack() -> void:
 	is_attacking = true
 	animation_player.play("attack", -1, 2)
@@ -90,3 +94,10 @@ func _flip_character(left: bool) -> void:
 		$Sprite2D.flip_h = true
 	else:
 		$Sprite2D.flip_h = false
+
+func set_target(target: AttackingCharacterBody2D) -> void:
+	_target = target
+	weapon.set_target(_target)
+
+func on_body_enter(body: Node2D) -> void:
+	pass
