@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://h7v446k11mw2"]
+
+[ext_resource type="Script" path="res://scripts/attacking_entity.gd" id="1_5h66e"]
+[ext_resource type="Texture2D" uid="uid://b2cv0wbfgiqk0" path="res://assets/textures/MinifolksHumans/Outline/MiniArcherMan.png" id="2_rh7as"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_srccn"]
+size = Vector2(8, 1.97004)
+
+[node name="archer" type="CharacterBody2D"]
+script = ExtResource("1_5h66e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+scale = Vector2(1.00472, 0.939431)
+texture = ExtResource("2_rh7as")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12.9813)
+scale = Vector2(1, 0.996269)
+shape = SubResource("RectangleShape2D_srccn")

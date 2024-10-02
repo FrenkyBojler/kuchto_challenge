@@ -1,0 +1,157 @@
+[gd_scene load_steps=10 format=3 uid="uid://bpixtt1k7da1x"]
+
+[ext_resource type="Script" path="res://scripts/attacking_entity.gd" id="1_s0eoj"]
+[ext_resource type="Texture2D" uid="uid://b1ajyv60hyxky" path="res://assets/textures/MinifolksHumans/Outline/MiniKingMan.png" id="2_jnaqw"]
+[ext_resource type="PackedScene" uid="uid://ya4mn7i1weia" path="res://prefabs/weapons/sword_weapon.tscn" id="3_686uc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_myj68"]
+size = Vector2(9, 2)
+
+[sub_resource type="Animation" id="Animation_2lf8f"]
+resource_name = "idle"
+length = 0.60001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("king/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 32, 32), Rect2(32, 0, 32, 32), Rect2(64, 0, 32, 32), Rect2(96, 0, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_r8w12"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("king/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_oc1d7"]
+resource_name = "walk"
+length = 1.00001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("king/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 64, 32, 32), Rect2(32, 64, 32, 32), Rect2(64, 64, 32, 32), Rect2(96, 64, 32, 32), Rect2(128, 64, 32, 32), Rect2(160, 64, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_irkx5"]
+resource_name = "attack"
+length = 0.90001
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("king/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 128, 32, 32), Rect2(32, 128, 32, 32), Rect2(64, 128, 32, 32), Rect2(96, 128, 32, 32), Rect2(128, 128, 32, 32), Rect2(160, 128, 32, 32), Rect2(192, 128, 32, 32), Rect2(224, 128, 32, 32), Rect2(256, 128, 32, 32), Rect2(288, 128, 32, 32)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("king")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_attack_animation_finish"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fcviv"]
+_data = {
+"RESET": SubResource("Animation_r8w12"),
+"attack": SubResource("Animation_irkx5"),
+"idle": SubResource("Animation_2lf8f"),
+"walk": SubResource("Animation_oc1d7")
+}
+
+[node name="king" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "top_left_spawn_position", "top_right_spawn_position", "top_spawn_position", "bottom_left_spawn_position", "bottom_right_spawn_position", "bottom_spawn_position", "left_spawn_position", "right_spawn_position")]
+script = ExtResource("1_s0eoj")
+weapon = NodePath("SwordWeapon")
+top_left_spawn_position = NodePath("AttackPoints/TopLeft")
+top_right_spawn_position = NodePath("AttackPoints/TopRight")
+top_spawn_position = NodePath("AttackPoints/Top")
+bottom_left_spawn_position = NodePath("AttackPoints/BottomLeft")
+bottom_right_spawn_position = NodePath("AttackPoints/BottomRight")
+bottom_spawn_position = NodePath("AttackPoints/Bottom")
+left_spawn_position = NodePath("AttackPoints/Left")
+right_spawn_position = NodePath("AttackPoints/Right")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0.5, -14)
+texture = ExtResource("2_jnaqw")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_myj68")
+
+[node name="SwordWeapon" parent="." instance=ExtResource("3_686uc")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_fcviv")
+}
+
+[node name="AttackPoints" type="Node2D" parent="."]
+
+[node name="TopLeft" type="Marker2D" parent="AttackPoints"]
+position = Vector2(-7, -10.5)
+
+[node name="BottomLeft" type="Marker2D" parent="AttackPoints"]
+position = Vector2(-7, 3)
+
+[node name="BottomRight" type="Marker2D" parent="AttackPoints"]
+position = Vector2(8.5, 3)
+
+[node name="TopRight" type="Marker2D" parent="AttackPoints"]
+position = Vector2(8.5, -10.5)
+
+[node name="Right" type="Marker2D" parent="AttackPoints"]
+position = Vector2(8.5, -3.5)
+
+[node name="Left" type="Marker2D" parent="AttackPoints"]
+position = Vector2(-7, -3.5)
+
+[node name="Top" type="Marker2D" parent="AttackPoints"]
+position = Vector2(0, -14)
+
+[node name="Bottom" type="Marker2D" parent="AttackPoints"]
+position = Vector2(0, 3)
+
+[connection signal="actual_attack_trigger" from="." to="SwordWeapon" method="_on_king_actual_attack_trigger"]

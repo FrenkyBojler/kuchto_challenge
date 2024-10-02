@@ -5,8 +5,11 @@ class_name Weapon
 @export var number_of_projectiles: int = 1
 @export var attack_rate: float = 1
 
-@export var projectile_spawn_position: Node2D
 @export var projectile_prefab: PackedScene
+
+@export var attach_projectiles_to_parent := false
+
+var projectile_spawn_position: Vector2
 
 var attack_timer: Timer
 var attack_timer_tick := 0.1
@@ -34,9 +37,20 @@ func _set_attack_timer() -> void:
 	attack_timer.one_shot = false
 	attack_timer.start()
 
-func _on_character_actual_attack_trigger() -> void:
+func set_projectile_spawn_pos(pos: Vector2) -> void:
+	projectile_spawn_position = pos
+
+# Connected from attacking_entity.gd
+func actual_attack_trigger() -> void:
+	if projectile_spawn_position == Vector2.ZERO:
+		print_debug("No projectile spawn position assigned!")
+		return
+
 	for i in number_of_projectiles:
 		var projectile = projectile_prefab.instantiate() as Projectile
-		get_tree().root.add_child(projectile)
-		projectile.global_position = projectile_spawn_position.global_position
-		projectile.shoot()
+		if attach_projectiles_to_parent:
+			add_child(projectile)
+		else:
+			get_tree().root.add_child(projectile)
+		projectile.global_position = projectile_spawn_position
+		#projectile.shoot()
