@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bpixtt1k7da1x" path="res://prefabs/characters/king.tscn" id="2_26u1k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xnfw1"]
-radius = 300.0
+radius = 571.014
 
 [node name="Enemy" type="Node2D" node_paths=PackedStringArray("character")]
 script = ExtResource("1_dlec7")
@@ -12,11 +12,11 @@ character = NodePath("king")
 
 [node name="king" parent="." instance=ExtResource("2_26u1k")]
 
-[node name="PlayerDetection" type="Area2D" parent="."]
+[node name="PlayerDetection" type="Area2D" parent="king"]
+scale = Vector2(0.5, 0.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="king/PlayerDetection"]
 shape = SubResource("CircleShape2D_xnfw1")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="got_hit" from="king" to="." method="_on_king_got_hit"]
+[connection signal="body_entered" from="king/PlayerDetection" to="." method="_on_player_detection_body_entered"]

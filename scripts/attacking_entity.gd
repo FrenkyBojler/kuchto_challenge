@@ -95,9 +95,8 @@ func _flip_character(left: bool) -> void:
 	else:
 		$Sprite2D.flip_h = false
 
-func set_target(target: AttackingCharacterBody2D) -> void:
-	_target = target
-	weapon.set_target(_target)
+func set_targets(targets: Array[AttackableNode2D]) -> void:
+	weapon.set_targets(targets)
 
-func on_body_enter(body: Node2D) -> void:
+func on_body_enter(_body: Node2D) -> void:
 	pass

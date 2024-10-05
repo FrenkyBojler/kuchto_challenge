@@ -103,6 +103,7 @@ height = 13.0
 
 [node name="archer" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "top_left_spawn_position", "top_right_spawn_position", "top_spawn_position", "bottom_left_spawn_position", "bottom_right_spawn_position", "bottom_spawn_position", "left_spawn_position", "right_spawn_position")]
 scale = Vector2(2, 2)
+collision_mask = 2
 script = ExtResource("1_5h66e")
 weapon = NodePath("Weapon")
 top_left_spawn_position = NodePath("AttackPoints/TopLeft")
@@ -122,7 +123,7 @@ texture = ExtResource("2_rh7as")
 region_enabled = true
 region_rect = Rect2(0, 0, 32, 32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="EnvCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12.9813)
 scale = Vector2(1, 0.996269)
 shape = SubResource("RectangleShape2D_srccn")

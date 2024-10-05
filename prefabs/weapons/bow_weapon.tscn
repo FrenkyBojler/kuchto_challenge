@@ -6,4 +6,6 @@
 [node name="Weapon" type="Node2D"]
 script = ExtResource("1_gjeey")
 attack_range = 300
+damage = 50.0
+attack_rate = 2.0
 projectile_prefab = ExtResource("2_6yix1")

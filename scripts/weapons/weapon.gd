@@ -8,9 +8,7 @@ class_name Weapon
 @export var attack_rate: float = 1
 
 @export var projectile_prefab: PackedScene
-
 @export var attach_projectiles_to_parent := false
-
 
 var projectile_spawn_position: Vector2
 
@@ -18,7 +16,8 @@ var attack_timer: Timer
 var attack_timer_tick := 0.1
 var current_time_to_attack := 0.0
 
-var _target: AttackingCharacterBody2D
+var _targets: Array[AttackableNode2D]
+var _current_target: AttackingCharacterBody2D
 
 signal on_attack
 
@@ -32,7 +31,7 @@ func _attack() -> void:
 	else:
 		current_time_to_attack = 0.0
 	
-	if _target != null and abs(global_position.distance_to(_target.global_position)) <= attack_range:
+	if _targets.size() != 0:
 		on_attack.emit()
 
 func _set_attack_timer() -> void:
@@ -43,12 +42,34 @@ func _set_attack_timer() -> void:
 	attack_timer.one_shot = false
 	attack_timer.start()
 	
-func set_target(target: AttackingCharacterBody2D) -> void:
-	_target = target
+func set_targets(targets: Array[AttackableNode2D]) -> void:
+	_targets = targets
 
 func set_projectile_spawn_pos(pos: Vector2) -> void:
 	projectile_spawn_position = pos
+	
+# TODO: Potentionaly very expensive
+func _get_closes_enemy() -> AttackingCharacterBody2D:
+	if _targets.size() == 0:
+		return null
+	var closest_enemy: AttackingCharacterBody2D = _targets[0].character
+	var closest_distance: float = -1.0
+	for target in _targets:
+		var current_distance = abs(target.get_real_position().distance_to(get_parent().global_position))
+		if closest_distance == -1.0 or current_distance < closest_distance:
+			closest_enemy = target.character
+			closest_distance = current_distance
+	return closest_enemy
 
+func _get_random_enemy_within_range() -> AttackingCharacterBody2D:
+	if _targets.size() == 0:
+		return null
+	var randomizer = RandomNumberGenerator.new()
+	var enemies_within_range = _targets.filter(func(enemy: AttackableNode2D): enemy.character.global_position.distance_to(get_parent().global_position) <= attack_range)
+	if enemies_within_range.is_empty():
+		return null
+	return enemies_within_range.pick_random().character
+	
 # Connected from attacking_entity.gd
 func actual_attack_trigger() -> void:
 	if projectile_spawn_position == Vector2.ZERO:
@@ -62,4 +83,6 @@ func actual_attack_trigger() -> void:
 		else:
 			get_tree().root.add_child(projectile)
 		projectile.global_position = projectile_spawn_position
-		projectile.shoot(_target, damage)
+		var closest_target = _get_closes_enemy()
+		var random_target = _get_random_enemy_within_range()
+		projectile.shoot(closest_target, random_target, damage)
