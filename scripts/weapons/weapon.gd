@@ -44,11 +44,12 @@ func _set_enemies_collider() -> void:
 
 func _on_enemy_entered(body: Node2D) -> void:
 	if body is AttackingCharacterBody2D and !(body as AttackingCharacterBody2D).is_player:
-		_targets.append(body)
 		body.tree_exited.connect(_on_enemy_removed_from_game.bind(body))
+		_targets.append(body)
 
 func _on_enemy_exited(body: Node2D) -> void:
 	if body is AttackingCharacterBody2D and is_player_weapon == (body as AttackingCharacterBody2D).is_player:
+		body.tree_exited.disconnect(_on_enemy_removed_from_game.bind(body))
 		_targets.erase(body)
 
 func _on_enemy_removed_from_game(body: Node2D) -> void:

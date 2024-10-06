@@ -26,6 +26,7 @@ y_sort_enabled = true
 position = Vector2(465, 207)
 
 [node name="Player" parent="Instances/Players" node_paths=PackedStringArray("enemies_node") instance=ExtResource("3_eo1cl")]
+y_sort_enabled = true
 enemies_node = NodePath("../../Enemies")
 
 [node name="Env" type="Node2D" parent="Instances"]
