@@ -28,9 +28,3 @@ func _physics_process(_delta: float) -> void:
 
 func _on_hit(damage: float) -> void:
 	print_debug("Player just got hit by: " + str(damage))
-
-
-func _on_enemies_child_entered_tree(node: Node) -> void:
-	if node is Enemy:
-		_enemies.append(node)
-		character.set_targets(_enemies)

@@ -7,5 +7,5 @@
 script = ExtResource("1_gjeey")
 attack_range = 300
 damage = 50.0
-attack_rate = 2.0
+number_of_projectiles = 3
 projectile_prefab = ExtResource("2_6yix1")

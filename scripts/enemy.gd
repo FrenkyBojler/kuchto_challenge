@@ -26,7 +26,7 @@ func _move() -> void:
 
 func _set_player(player: AttackingCharacterBody2D) -> void:
 	_player = player
-	character.set_targets(_enemies)
+	character.set_targets([_player])
 	$king/PlayerDetection.queue_free()
 
 func _on_player_detection_body_entered(body: Node2D) -> void:
